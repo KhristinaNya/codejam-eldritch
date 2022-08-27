@@ -1,0 +1,218 @@
+body {
+  min-width: 480px;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  text-align: center;
+  background: center/cover, rgba(56, 65, 94, 0.6);
+  background-image: url("../assets/img/eldritch-horror-banner.jpg");
+  background-blend-mode: multiply;
+  -webkit-transition: background-image 0.2s ease-in-out;
+  transition: background-image 1s ease-in-out;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-family: 'Aboreto', cursive;
+  font-weight: 400;
+  display: flex;
+  align-content: space-between;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+}
+
+.start-menu .btn{
+  width: 120px;
+  height: 120px;
+  border-radius: 100px;
+  border: 0px;
+  box-shadow: 0 0 50px rgba(255, 255, 255, 0.6);
+  background:  rgba(255, 254, 254, 0.3);
+  font-size: 20px;
+  color: rgb(255, 255, 255);
+  font-family: 'Aboreto', cursive;
+  font-weight: 400;
+  margin-top: 150px;
+}
+
+.start-menu .btn:hover {
+  background:  rgb(255, 255, 255, 0.9);
+  box-shadow: 0 0 300px rgba(255, 255, 255, 1), 0 0 100px rgba(255, 255, 255, 1), 0 0 20px rgb(0, 0, 0);
+  color: rgb(28, 95, 104);
+  transition: 0.7s;
+  text-shadow: 0px 1px 2px rgb(0, 0, 0);
+}
+
+.start-menu .btn.click{
+  display: none;
+  transition: 0.7s;
+}
+
+.ancients-cards.hidden {
+  display: none;
+}
+.ancients-cards h2{
+  font-weight: 400;
+  color: rgb(255, 255, 255);
+  margin-bottom: 30px;
+}
+
+.ancients-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*transform: translate(0, 0px);*/
+  transition: 1s;
+}
+
+img { 
+  position: relative;
+  max-width: 220px; 
+  border-radius: 10px; 
+  margin-right: 100px; 
+  box-shadow: 0 0 20px rgb(0, 0, 0); 
+  cursor: pointer; 
+  filter: brightness(50%); 
+  z-index: 2;
+} 
+ 
+img:hover{ 
+  filter: brightness(100%); 
+  transition: 0.7s; 
+  transform: scale(2);
+  z-index: 3;
+}
+.ancients-cards img.active{
+  filter: brightness(100%); 
+  box-shadow: 0 0 10px rgb(173, 40, 40); 
+}
+.lvl-card {
+  display: flex;
+  justify-content: center;
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+}
+
+.lvl-card div{
+  margin: 10px;
+  background:  rgb(238, 238, 238);
+  color: rgb(0, 0, 0);
+  min-width: 100px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lvl-card div:hover{
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: 0.3s;
+}
+
+.shuffle{
+  margin-top: 30px;
+  width: 200px;
+  height: 50px;
+  border: 2px solid  rgb(173, 40, 40);
+  background-color: rgba(0, 0, 0, 0.308);
+  color: rgb(255, 255, 255);
+  font-family: 'Aboreto', cursive;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.shuffle:hover{
+  transform: scale(1.5);
+  transition: 0.7s;
+}
+
+.lvl-card div.active{
+  background-color: rgb(173, 40, 40);
+  color: rgb(255, 255, 255);
+}
+
+.cards-deck.hidden{
+  display: none;
+}
+
+.cards-deck{
+  display: flex;
+  justify-content: center;
+}
+
+.cards-deck .prev{
+  margin-left: 10%;
+  color: rgb(255, 255, 255);
+  max-width: 100px;
+  max-height: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: bold;
+  border-bottom: 2px solid rgb(173, 40, 40);
+  border-left: 5px solid rgb(173, 40, 40);
+}
+
+.cards-deck .prev:hover{
+  transform: scale(1.5);
+  transition: 0.7s;
+}
+
+
+.stage-container{
+  color: rgb(255, 255, 255);
+}
+
+
+.stage .dot {
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.stage-container span{
+  font-size: 13px;
+}
+
+.stage-container .lvl-name{
+  font-size: 20px;
+}
+.stage-container .lvl-name span{
+  font-size: 26px;
+  color: rgb(255, 255, 255);
+  border-bottom: 2px solid rgb(173, 40, 40);
+  border-right: 5px solid rgb(173, 40, 40);
+  background-color:  rgb(0, 0, 0, 0.3);
+}
+.dots-container{
+  display: flex;
+  justify-content: center;
+}
+
+.stage-container .dot.yellow{
+  background-color: rgba(252, 229, 30, 0.6);
+}
+.stage-container .dot.green {
+  background-color: rgb(13, 107, 71, 0.6);
+}
+.stage-container .dot.blue {
+  background-color: rgb(24, 134, 153, 0.6);
+}
+
+.stage-container img{
+  margin-right: 0;
+  filter: none;
+}
+.stage-container img:hover{
+  transform: scale(1);
+}
