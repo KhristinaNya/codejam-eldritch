@@ -181,9 +181,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function setBg(nameImg) {
         const img = new Image();
-        img.src = `../assets/img/${nameImg}.jpg`;
+        img.src = `assets/img/${nameImg}.jpg`;
         img.onload = () => {
-            body.style.backgroundImage = `url('../assets/img/${nameImg}.jpg')`;
+            body.style.backgroundImage = `url('assets/img/${nameImg}.jpg')`;
         };
     }
 
@@ -251,9 +251,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     function setImageCard(nameImg) {
         const img = new Image();
-        img.src = `../assets/MythicCards/${nameImg}.png`;
+        img.src = `assets/MythicCards/${nameImg}.png`;
         img.onload = () => {
-            deckImg.src = `../assets/MythicCards/${nameImg}.png`;
+            deckImg.src = `assets/MythicCards/${nameImg}.png`;
         };
     }
 
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         nameLvl.innerText = difficulties[numLvl]['name'];
         body.style.alignItems = 'start';
-        deckImg.src = `./assets/img/${ancientsData[numAncient]['name']}.png`;
+        deckImg.src = `assets/img/${ancientsData[numAncient]['name']}.png`;
     };
 
     shuffle.addEventListener('click', (event) => { getStartWindowsDeckOfCard(); getNameDeckOfCard(); });
