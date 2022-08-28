@@ -51,29 +51,36 @@ document.addEventListener("DOMContentLoaded", async () => {
             'cardsImgName': [],
             'cardsImgNotTake': [],
             'allImage': greenCards,
-            'color' : 'green',
+            'neededImage': [],
+            'color': 'green',
+            'numbers': 18,
         },
         {
             'name': 'yellowCards',
             'cardsImgName': [],
             'cardsImgNotTake': [],
             'allImage': yellowCards,
-            'color' : 'yellow',
+            'neededImage': [],
+            'color': 'yellow',
+            'numbers': 21,
         },
         {
             'name': 'blueCards',
             'cardsImgName': [],
             'cardsImgNotTake': [],
             'allImage': blueCards,
-            'color' : 'blue',
+            'neededImage': [],
+            'color': 'blue',
+            'numbers': 12,
         }
     ]
-
     //стартовая кнопка
     btnStart.addEventListener('click', (event) => {
         btnStart.classList.add('click');
         ancients.classList.remove('hidden');
         body.style.alignItems = 'center';
+        imgCards[0].classList.add('active');
+        lvlCards[0].classList.add('active');
     });
 
     // выбор картинки древнего
@@ -99,19 +106,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     lvlCards.forEach((element, index) => {
         element.addEventListener('click', (event) => {
             numLvl = index;
-            selectLvl();
+            selectNameLvl();
         });
     })
 
-    function setBg(nameImg) {
-        const img = new Image();
-        img.src = `../assets/img/${nameImg}.jpg`;
-        img.onload = () => {
-            body.style.backgroundImage = `url('../assets/img/${nameImg}.jpg')`;
-        };
-    }
-
-    function selectLvl() {
+    const selectNameLvl = () => {
         lvlCards.forEach((event, index) => {
             if (index === numLvl) {
                 event.classList.add('active');
@@ -120,6 +119,72 @@ document.addEventListener("DOMContentLoaded", async () => {
                 event.classList.remove('active');
             }
         })
+    }
+
+    const selectLvlImage = (image) => {
+        let arrCardsImage = [];
+        let numbersColor = cardsSumSameColor[image[0]['color'] + 'Cards'];
+        let lenArrImage = 0;
+
+        switch (numLvl) {
+            case 0:
+                image.forEach(element => {
+                    if (element['difficulty'] === 'easy') {
+                        arrCardsImage.push(element['id']);
+                    }
+                });
+                break;
+            case 1:
+                image.forEach(element => {
+                    if (element['difficulty'] === 'easy' || element['difficulty'] === 'normal') {
+                        arrCardsImage.push(element['id']);
+                    }
+                });
+                break;
+            case 2:
+                image.forEach(element => {
+                    arrCardsImage.push(element['id']);
+                });
+                break;
+            case 3:
+                image.forEach(element => {
+                    if (element['difficulty'] !== 'easy') {
+                        arrCardsImage.push(element['id']);
+                    }
+                });
+                break;
+            case 4:
+                image.forEach(element => {
+                    if (element['difficulty'] === 'hard') {
+                        arrCardsImage.push(element['id']);
+                    }
+                });
+                break;
+        }
+        lenArrImage = arrCardsImage.length;
+        if (lenArrImage < numbersColor) {
+            for (let obj of image) {
+                if (lenArrImage === numbersColor) {
+                    break;
+                }
+                if (obj['difficulty'] === 'normal') {
+                    arrCardsImage.push(obj['id']);
+                    lenArrImage += 1;
+                }
+            }
+        }
+
+        return arrCardsImage;
+    }
+
+
+
+    function setBg(nameImg) {
+        const img = new Image();
+        img.src = `../assets/img/${nameImg}.jpg`;
+        img.onload = () => {
+            body.style.backgroundImage = `url('../assets/img/${nameImg}.jpg')`;
+        };
     }
 
     const getNumberOfCards = () => {
@@ -137,6 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         deckOfCard.forEach(elemenet => {
             elemenet['cardsImgName'] = [];
             elemenet['cardsImgNotTake'] = [];
+            elemenet['neededImage'] = [];
         });
     };
 
@@ -146,10 +212,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         body.style.alignItems = 'center';
 
         setBg('eldritch-horror-banner');
-        
+
         clearDeckOfCard();
     });
-    
+
     //Создание колоды
     //сумма всех карт
     const getCardsCounter = () => {
@@ -166,16 +232,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         return Math.floor(Math.random() * (max + 1 - min)) + min;
     };
 
-    const getRandomNameCard = (min, max, array, array2, name) => {
+    const getRandomNameCard = (min, max, arrayUse, array, name) => {
         const nameImg = name + getRandomNumber(min, max);
-        return (array.indexOf(nameImg) >= 0 && array2.indexOf(nameImg) >= 0) ? getRandomNameCard(min, max, array, array2, name) : nameImg;
+        return (array.indexOf(nameImg) >= 0) ? getRandomNameCard(min, max, arrayUse, array,name) :
+            (arrayUse.indexOf(nameImg) < 0 ? getRandomNameCard(min, max, arrayUse, array, name) : nameImg);
     };
 
     const getNameDeckOfCard = () => {
-        deckOfCard.forEach((element, index) => {
-            let numberImage = cardsSumSameColor[element['name']];
-            [...Array(numberImage)].forEach(item => {
-                element['cardsImgName'].push(getRandomNameCard(1, numberImage, element['cardsImgName'], element['cardsImgNotTake'], element['color']))
+        deckOfCard.forEach((element) => {
+            element['neededImage'] = selectLvlImage(element['allImage']);
+            let numberImage = element['numbers'];
+            [...Array(cardsSumSameColor[element['name']])].forEach(item => {
+                element['cardsImgName'].push(getRandomNameCard(1, numberImage, element['neededImage'], element['cardsImgName'], element['color']))
                 numbersCars += 1;
             });
         });
@@ -202,8 +270,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             getNumberOfCards();
             deckOfCard.forEach(element => {
                 if (element['name'] === currentColor) {
-                    nameImg = element['color'] + '/' + getRandomNameCard(1, cardsSumSameColor[currentColor], element['cardsImgName'], element['cardsImgNotTake'], element['color']);
+                    nameImg = getRandomNameCard(1, element['numbers'], element['neededImage'], element['cardsImgNotTake'], element['color']);
                     element['cardsImgNotTake'].push(nameImg);
+                    nameImg = element['color'] + '/' + nameImg;
                 }
             })
             numbersCars -= 1;
@@ -240,6 +309,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         nameLvl.innerText = difficulties[numLvl]['name'];
         body.style.alignItems = 'start';
+        deckImg.src = `./assets/img/${ancientsData[numAncient]['name']}.png`;
     };
 
     shuffle.addEventListener('click', (event) => { getStartWindowsDeckOfCard(); getNameDeckOfCard(); });
